@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+锘縰sing Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -30,10 +30,19 @@ namespace SurveyUP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<N3mikosContext>(
-                            options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")))
-                    .AddDbContext<SurveyUpIdDbContext2>(
-                            options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); 
+            // SQL Server is the default. Set "Database:Provider": "Sqlite" for local development without a server.
+            var useSqlite = string.Equals(Configuration["Database:Provider"], "Sqlite", StringComparison.OrdinalIgnoreCase);
+            void ConfigureDb(DbContextOptionsBuilder options)
+            {
+                var connectionString = Configuration.GetConnectionString("DefaultConnection");
+                if (useSqlite)
+                    options.UseSqlite(connectionString).AddInterceptors(new SqliteCompatibilityInterceptor());
+                else
+                    options.UseSqlServer(connectionString);
+            }
+
+            services.AddDbContext<N3mikosContext>(ConfigureDb)
+                    .AddDbContext<SurveyUpIdDbContext2>(ConfigureDb);
 
 
 
@@ -74,8 +83,8 @@ namespace SurveyUP
                 options.Cookie.Name = "SurveyUp";
                 options.Cookie.HttpOnly = true;
 
-                options.LoginPath = new PathString("/Account/Login");
-                options.AccessDeniedPath = new PathString("/Account/AccessDenied");
+                options.LoginPath = new PathString("/Identity/Account/Login");
+                options.AccessDeniedPath = new PathString("/Identity/Account/AccessDenied");
                 options.SlidingExpiration = true;
             });
 
@@ -86,16 +95,16 @@ namespace SurveyUP
                 options.AddPolicy($"Require{Roles.Student}Role",
                     policy => policy.RequireRole(
                         Roles.Administrator.ToString(),
-                        Roles.Tw髍ca.ToString(),
+                        Roles.Tw贸rca.ToString(),
                         Roles.Student.ToString()));
-                options.AddPolicy($"Require{Roles.Tw髍ca}Role",
+                options.AddPolicy($"Require{Roles.Tw贸rca}Role",
                     policy => policy.RequireRole(
                         Roles.Administrator.ToString(),
-                        Roles.Tw髍ca.ToString()));
+                        Roles.Tw贸rca.ToString()));
                 options.AddPolicy($"Require{Roles.Sekretariat}Role",
                     policy => policy.RequireRole(
                         Roles.Administrator.ToString(),
-                        Roles.Tw髍ca.ToString(),
+                        Roles.Tw贸rca.ToString(),
                         Roles.Sekretariat.ToString()));
 
             });
@@ -103,9 +112,9 @@ namespace SurveyUP
 
             services.AddRazorPages(options =>
                 {
-                    options.Conventions.AuthorizeFolder("/Answers", $"Require{Roles.Tw髍ca}Role");
-                    options.Conventions.AuthorizeFolder("/Questions", $"Require{Roles.Tw髍ca}Role");
-                    options.Conventions.AuthorizeFolder("/Surveys", $"Require{Roles.Tw髍ca}Role");
+                    options.Conventions.AuthorizeFolder("/Answers", $"Require{Roles.Tw贸rca}Role");
+                    options.Conventions.AuthorizeFolder("/Questions", $"Require{Roles.Tw贸rca}Role");
+                    options.Conventions.AuthorizeFolder("/Surveys", $"Require{Roles.Tw贸rca}Role");
                     options.Conventions.AuthorizeFolder("/Users", $"Require{Roles.Administrator}Role");
                     options.Conventions.AuthorizeFolder("/Roles", $"Require{Roles.Administrator}Role");
                     options.Conventions.AuthorizeFolder("/Voters", $"Require{Roles.Sekretariat}Role");

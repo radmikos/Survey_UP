@@ -36,7 +36,7 @@ namespace SurveyUP.Pages.Voters
             public int? SurveyId { get; set; }
         }
 
-        public IList<LocalVotes> Votes { get;set; }
+        public IList<LocalVotes> Votes { get; set; } = new List<LocalVotes>();
 
         public async Task OnGetAsync(int? id)
         {

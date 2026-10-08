@@ -115,7 +115,7 @@ namespace SurveyUP.Pages.Voters
                                                                        where va.VoterId == voterId && va.AnswerId == a.AnswerId
                                                                        select new VoterAnswer
                                                                        {
-                                                                           Answers = va.AnswerText.Split('|', StringSplitOptions.None).ToList(),
+                                                                           Answers = (va.AnswerText ?? string.Empty).Split('|', StringSplitOptions.None).ToList(),
                                                                            SectionNumber = va.SectionNumber
                                                                        }).ToList()
                                                    }).ToList()

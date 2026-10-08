@@ -87,9 +87,7 @@ namespace SurveyUP.Areas.Identity.Pages.Account
                 BirthDate = Input.BirthDate,
                 Pesel = Input.Pesel,
                 BirthPlace = Input.BirthPlace,
-                PhoneNumber = Input.PhoneNumber,
-                Password = Input.Password
-                             
+                PhoneNumber = Input.PhoneNumber
             };
 
             var result = await _userManager.CreateAsync(user, Input.Password);

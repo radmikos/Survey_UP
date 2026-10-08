@@ -13,18 +13,6 @@ namespace SurveyUP.Models.Tables
         [Display(Name = "Email")]
         override public string Email { get; set; }
 
-        [Required(ErrorMessage = "Pole Hasło jest wymagane")]
-        [StringLength(100, ErrorMessage = " {0} musi mieć przynajmniej {2}, a maksymalnie {1} znaków", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Hasło")]
-        public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Potwierdź hasło")]
-        [Compare("Password", ErrorMessage = "Hasła nie są zgodne")]
-        public string ConfirmPassword { get; set; }
-
-
         [Required(ErrorMessage = "Pole Imie jest wymagane")]
         [StringLength(250, ErrorMessage = "{0} must at max {1} characters long.")]
         [Display(Name = "Nazwisko")]
