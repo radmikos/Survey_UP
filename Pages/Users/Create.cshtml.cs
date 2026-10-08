@@ -48,6 +48,17 @@ namespace SurveyUP.Pages.Users
 
         public class InputModel       : ApplicationUser
         {
+            [Required(ErrorMessage = "Pole Hasło jest wymagane")]
+            [StringLength(100, ErrorMessage = " {0} musi mieć przynajmniej {2}, a maksymalnie {1} znaków", MinimumLength = 6)]
+            [DataType(DataType.Password)]
+            [Display(Name = "Hasło")]
+            public string Password { get; set; }
+
+            [DataType(DataType.Password)]
+            [Display(Name = "Potwierdź hasło")]
+            [Compare("Password", ErrorMessage = "Hasła nie są zgodne")]
+            public string ConfirmPassword { get; set; }
+
             [Display(Name = "Wybierz rolę")]
             public string Role { get; set; }
         }
@@ -83,9 +94,6 @@ namespace SurveyUP.Pages.Users
             ModelState["Email"].RawValue = ModelState["Input.Email"].RawValue;
             ModelState["Email"].ValidationState = ModelState["Input.Email"].ValidationState;
 
-            ModelState["Password"].RawValue = ModelState["Input.Password"].RawValue;
-            ModelState["Password"].ValidationState = ModelState["Input.Password"].ValidationState;
-
             ModelState["FirstName"].RawValue = ModelState["Input.FirstName"].RawValue;
             ModelState["FirstName"].ValidationState = ModelState["Input.FirstName"].ValidationState;
 
@@ -103,7 +111,6 @@ namespace SurveyUP.Pages.Users
                 Email = Input.Email,
                 Name = Input.Name,
                 FirstName = Input.FirstName,
-                Password = Input.Password,
                 MiddleName = Input.MiddleName,
                 AlbumNumber = Input.AlbumNumber,
                 Department = Input.Department,

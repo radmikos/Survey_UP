@@ -80,8 +80,7 @@ namespace SurveyUP.Pages.Users
                 BirthDate = user.BirthDate,
                 Pesel = user.Pesel,
                 BirthPlace = user.BirthPlace,
-                PhoneNumber = user.PhoneNumber,
-                Password = user.Password
+                PhoneNumber = user.PhoneNumber
             };
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -114,7 +113,7 @@ namespace SurveyUP.Pages.Users
                 await _userManager.AddToRoleAsync(user, Role);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (!AspNetUsersExists(TempData["id"].ToString()))
                 {

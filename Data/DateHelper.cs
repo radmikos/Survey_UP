@@ -50,11 +50,11 @@ namespace SurveyUP.Data
                 }
              
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Do stuff, i.e. log the exception
                 // Let it go through the upper levels, something bad happened
-                throw ex;
+                throw;
             }
 
             return validationResult;

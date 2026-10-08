@@ -132,7 +132,7 @@ namespace SurveyUP.Pages.Users
                 await _userManager.UpdateAsync(user);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (!AspNetUsersExists(TempData["id"].ToString()))
                 {

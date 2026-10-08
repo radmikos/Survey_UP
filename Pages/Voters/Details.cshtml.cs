@@ -64,7 +64,7 @@ namespace SurveyUP.Pages.Voters
                               AnswerId = va.AnswerId,
                               AnswerText = (from a in _context.VtsTbAnswer where a.AnswerId == va.AnswerId select a.AnswerText).FirstOrDefault(),
                               SectionNumber = va.SectionNumber,
-                              Answers = va.AnswerText.Split('|', StringSplitOptions.None).ToList()
+                              Answers = (va.AnswerText ?? string.Empty).Split('|', StringSplitOptions.None).ToList()
                           }).ToList();
 
 
